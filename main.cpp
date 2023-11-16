@@ -54,7 +54,7 @@ int main() {
     Mat receivedImage = imdecode(receivedImageData, IMREAD_UNCHANGED);
 
     // Muestra la imagen
-    imshow("Imagen Recibida", receivedImage);
+    imshow("Imagen Recibida por el Estudiante", receivedImage);
     waitKey(0);
 
     // Cierra el socket
