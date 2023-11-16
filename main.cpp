@@ -42,11 +42,12 @@ int main() {
     // Envia la informacion de la imagen
     send(clientSocket, imageData.data(), imageSize, 0);
 
-    // Recive el tamaño de la imagen del server
+
+    // Recibe el tamaño de la imagen del server
     uint32_t receivedImageSize;
     recv(clientSocket, &receivedImageSize, sizeof(receivedImageSize), 0);
 
-    // Recive la informacion del server
+    // Recibe la informacion del server
     vector<uint8_t> receivedImageData(receivedImageSize);
     recv(clientSocket, receivedImageData.data(), receivedImageSize, 0);
 
