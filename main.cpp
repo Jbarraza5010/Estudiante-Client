@@ -42,6 +42,21 @@ int main() {
     // Envia la informacion de la imagen
     send(clientSocket, imageData.data(), imageSize, 0);
 
+    // Receive the image size from the server
+    uint32_t receivedImageSize;
+    recv(clientSocket, &receivedImageSize, sizeof(receivedImageSize), 0);
+
+    // Receive the image data from the server
+    vector<uint8_t> receivedImageData(receivedImageSize);
+    recv(clientSocket, receivedImageData.data(), receivedImageSize, 0);
+
+    // Convert the received image data to Mat
+    Mat receivedImage = imdecode(receivedImageData, IMREAD_UNCHANGED);
+
+    // Display the received image
+    imshow("Imagen Recibida", receivedImage);
+    waitKey(0);
+
     // Cierra el socket
     close(clientSocket);
 
