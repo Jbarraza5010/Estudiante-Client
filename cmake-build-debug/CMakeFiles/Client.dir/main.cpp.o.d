@@ -1,6 +1,5 @@
-CMakeFiles/Client.dir/main.cpp.o: \
- /home/tomeito/CLionProjects/Client/main.cpp /usr/include/stdc-predef.h \
- /usr/include/c++/11/iostream \
+CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
+ /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -374,4 +373,19 @@ CMakeFiles/Client.dir/main.cpp.o: \
  /usr/include/opencv4/opencv2/stitching/detail/camera.hpp \
  /usr/include/opencv4/opencv2/video.hpp \
  /usr/include/opencv4/opencv2/video/tracking.hpp \
- /usr/include/opencv4/opencv2/video/background_segm.hpp
+ /usr/include/opencv4/opencv2/video/background_segm.hpp \
+ /usr/include/openssl/aes.h /usr/include/openssl/macros.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
+ /usr/include/x86_64-linux-gnu/openssl/configuration.h \
+ /usr/include/openssl/opensslv.h /usr/include/openssl/evp.h \
+ /usr/include/openssl/types.h /usr/include/openssl/e_os2.h \
+ /usr/include/openssl/safestack.h /usr/include/openssl/stack.h \
+ /usr/include/openssl/core.h /usr/include/openssl/core_dispatch.h \
+ /usr/include/openssl/symhacks.h /usr/include/openssl/bio.h \
+ /usr/include/openssl/crypto.h /usr/include/openssl/cryptoerr.h \
+ /usr/include/openssl/cryptoerr_legacy.h /usr/include/openssl/bioerr.h \
+ /usr/include/openssl/evperr.h /usr/include/openssl/params.h \
+ /usr/include/openssl/bn.h /usr/include/openssl/bnerr.h \
+ /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
+ /usr/include/openssl/asn1.h /usr/include/openssl/asn1err.h \
+ /usr/include/openssl/objectserr.h

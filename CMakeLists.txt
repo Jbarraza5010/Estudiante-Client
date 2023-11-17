@@ -9,4 +9,4 @@ add_executable(Client main.cpp)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-target_link_libraries(Client ${OpenCV_LIBS})
+target_link_libraries(Client ${OpenCV_LIBS} ssl crypto)

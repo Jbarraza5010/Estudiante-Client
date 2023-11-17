@@ -3,9 +3,36 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <opencv2/opencv.hpp>
+#include <openssl/aes.h>
+#include <openssl/evp.h>
 
 using namespace std;
 using namespace cv;
+
+void decryptAES(const vector<uint8_t>& input, vector<uint8_t>& output, const vector<uint8_t>& key) {
+    EVP_CIPHER_CTX* ctx;
+    int len;
+    int plaintext_len;
+
+    // Create and initialize the context
+    ctx = EVP_CIPHER_CTX_new();
+    EVP_DecryptInit_ex(ctx, EVP_aes_128_ecb(), NULL, key.data(), NULL);
+
+    // Set up the output buffer
+    output.resize(input.size());
+
+    // Perform the decryption
+    EVP_DecryptUpdate(ctx, output.data(), &len, input.data(), input.size());
+    plaintext_len = len;
+
+    // Finalize the decryption
+    EVP_DecryptFinal_ex(ctx, output.data() + len, &len);
+    plaintext_len += len;
+
+    // Clean up
+    EVP_CIPHER_CTX_free(ctx);
+    output.resize(plaintext_len);
+}
 
 int main() {
     // Crea el socket
@@ -28,31 +55,28 @@ int main() {
         return -1;
     }
 
-    // Input de la imagen a enviar
-    Mat image = imread("/home/tomeito/CLionProjects/Client/logo_tec.jpg", IMREAD_UNCHANGED);
+    // Receive the size of the encrypted image from the server
+    uint32_t encryptedImageSize;
+    recv(clientSocket, &encryptedImageSize, sizeof(encryptedImageSize), 0);
 
-    // Convierte la imagen a un set de bytes
-    vector<uint8_t> imageData;
-    imencode(".jpg", image, imageData);
+    // Receive the size of the key from the server
+    uint32_t keySize;
+    recv(clientSocket, &keySize, sizeof(keySize), 0);
 
-    // Envia el tamaño de la imagen
-    uint32_t imageSize = imageData.size();
-    send(clientSocket, &imageSize, sizeof(imageSize), 0);
+    // Receive the encrypted image data from the server
+    vector<uint8_t> encryptedImageData(encryptedImageSize);
+    recv(clientSocket, encryptedImageData.data(), encryptedImageSize, 0);
 
-    // Envia la informacion de la imagen
-    send(clientSocket, imageData.data(), imageSize, 0);
+    // Receive the key from the server
+    vector<uint8_t> aesKey(keySize);
+    recv(clientSocket, aesKey.data(), keySize, 0);
 
+    // Decrypt the image with AES
+    vector<uint8_t> decryptedImageData;
+    decryptAES(encryptedImageData, decryptedImageData, aesKey);
 
-    // Recibe el tamaño de la imagen del server
-    uint32_t receivedImageSize;
-    recv(clientSocket, &receivedImageSize, sizeof(receivedImageSize), 0);
-
-    // Recibe la informacion del server
-    vector<uint8_t> receivedImageData(receivedImageSize);
-    recv(clientSocket, receivedImageData.data(), receivedImageSize, 0);
-
-    // Convierte la imagen
-    Mat receivedImage = imdecode(receivedImageData, IMREAD_UNCHANGED);
+    // Convert the received image data to Mat
+    Mat receivedImage = imdecode(decryptedImageData, IMREAD_UNCHANGED);
 
     // Muestra la imagen
     imshow("Imagen Recibida por el Estudiante", receivedImage);
