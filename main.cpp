@@ -5,9 +5,44 @@
 #include <opencv2/opencv.hpp>
 #include <openssl/aes.h>
 #include <openssl/evp.h>
+#include <openssl/rsa.h>
+#include <openssl/pem.h>
+#include <openssl/err.h>
 
 using namespace std;
 using namespace cv;
+
+void decryptRSA(const vector<uint8_t>& input, vector<uint8_t>& output, const vector<uint8_t>& privateKey) {
+    RSA *rsa = NULL;
+    BIO *keyBio = BIO_new_mem_buf(privateKey.data(), privateKey.size());
+
+    if (keyBio == NULL) {
+        cerr << "Error creando el objeto BIO" << endl;
+        return;
+    }
+
+    rsa = PEM_read_bio_RSAPrivateKey(keyBio, NULL, NULL, NULL);
+    BIO_free(keyBio);
+
+    if (rsa == NULL) {
+        cerr << "Error leyendo la clave privada RSA" << endl;
+        return;
+    }
+
+    int inputSize = input.size();
+    int outputSize = RSA_size(rsa);
+    output.resize(outputSize);
+
+    int result = RSA_private_decrypt(inputSize, input.data(), output.data(), rsa, RSA_PKCS1_PADDING);
+
+    if (result == -1) {
+        cerr << "Error desencriptando con RSA" << endl;
+        RSA_free(rsa);
+        return;
+    }
+
+    RSA_free(rsa);
+}
 
 void decryptAES(const vector<uint8_t>& input, vector<uint8_t>& output, const vector<uint8_t>& key) {
     EVP_CIPHER_CTX* ctx;
@@ -55,36 +90,65 @@ int main() {
         return -1;
     }
 
-    // Receive the size of the encrypted image from the server
+    // Recibe el tamaño de la imagen cifrada desde el servidor
     uint32_t encryptedImageSize;
     recv(clientSocket, &encryptedImageSize, sizeof(encryptedImageSize), 0);
 
-    // Receive the size of the key from the server
+    // Recibe el tamaño de la clave desde el servidor
     uint32_t keySize;
     recv(clientSocket, &keySize, sizeof(keySize), 0);
 
-    // Receive the encrypted image data from the server
-    vector<uint8_t> encryptedImageData(encryptedImageSize);
-    recv(clientSocket, encryptedImageData.data(), encryptedImageSize, 0);
+    // Recibe el identificador del algoritmo desde el servidor
+    uint8_t algorithmIdentifier;
+    recv(clientSocket, &algorithmIdentifier, sizeof(algorithmIdentifier), 0);
 
-    // Receive the key from the server
-    vector<uint8_t> aesKey(keySize);
-    recv(clientSocket, aesKey.data(), keySize, 0);
+    if (algorithmIdentifier == 1) {
+        // Recibe los datos de la imagen cifrada desde el servidor
+        vector<uint8_t> encryptedImageData(encryptedImageSize);
+        recv(clientSocket, encryptedImageData.data(), encryptedImageSize, 0);
 
-    // Decrypt the image with AES
-    vector<uint8_t> decryptedImageData;
-    decryptAES(encryptedImageData, decryptedImageData, aesKey);
+        // Recibe la clave desde el servidor
+        vector<uint8_t> aesKey(keySize);
+        recv(clientSocket, aesKey.data(), keySize, 0);
 
-    // Convert the received image data to Mat
-    Mat receivedImage = imdecode(decryptedImageData, IMREAD_UNCHANGED);
+        // Desencripta la imagen con AES
+        vector<uint8_t> decryptedImageData;
+        decryptAES(encryptedImageData, decryptedImageData, aesKey);
 
-    // Muestra la imagen
-    imshow("Imagen Recibida por el Estudiante", receivedImage);
-    waitKey(0);
+        // Convierte los datos de la imagen recibidos a formato Mat
+        Mat receivedImage = imdecode(decryptedImageData, IMREAD_UNCHANGED);
+
+        // Muestra la imagen
+        imshow("Imagen Recibida por el Estudiante", receivedImage);
+        waitKey(0);
+    } else if (algorithmIdentifier == 2) {
+        // Recibe los datos de la imagen cifrada desde el servidor
+        vector<uint8_t> encryptedImageData(encryptedImageSize);
+        recv(clientSocket, encryptedImageData.data(), encryptedImageSize, 0);
+
+        // Recibe el tamaño de la clave pública RSA desde el servidor
+        uint32_t publicKeySize;
+        recv(clientSocket, &publicKeySize, sizeof(publicKeySize), 0);
+        cout << "Tamaño de la clave pública RSA recibida: " << publicKeySize << endl;
+
+        // Recibe la clave pública RSA desde el servidor
+        vector<uint8_t> rsaPublicKey(keySize);
+        recv(clientSocket, rsaPublicKey.data(), keySize, 0);
+
+        // Desencripta la imagen con RSA
+        vector<uint8_t> decryptedImageData;
+        decryptRSA(encryptedImageData, decryptedImageData, rsaPublicKey);
+
+        // Convierte los datos de la imagen recibidos a formato Mat
+        Mat receivedImage = imdecode(decryptedImageData, IMREAD_UNCHANGED);
+
+        // Muestra la imagen
+        imshow("Imagen Recibida por el Estudiante", receivedImage);
+        waitKey(0);
+    }
 
     // Cierra el socket
     close(clientSocket);
 
     return 0;
 }
-
