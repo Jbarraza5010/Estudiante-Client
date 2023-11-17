@@ -471,12 +471,72 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
   /usr/include/openssl/obj_mac.h \
   /usr/include/openssl/asn1.h \
   /usr/include/openssl/asn1err.h \
-  /usr/include/openssl/objectserr.h
+  /usr/include/openssl/objectserr.h \
+  /usr/include/openssl/rsa.h \
+  /usr/include/openssl/rsaerr.h \
+  /usr/include/openssl/pem.h \
+  /usr/include/openssl/x509.h \
+  /usr/include/openssl/buffer.h \
+  /usr/include/openssl/buffererr.h \
+  /usr/include/openssl/ec.h \
+  /usr/include/openssl/ecerr.h \
+  /usr/include/openssl/dsa.h \
+  /usr/include/openssl/dh.h \
+  /usr/include/openssl/dherr.h \
+  /usr/include/openssl/dsaerr.h \
+  /usr/include/openssl/sha.h \
+  /usr/include/openssl/x509err.h \
+  /usr/include/openssl/x509_vfy.h \
+  /usr/include/openssl/lhash.h \
+  /usr/include/openssl/pkcs7.h \
+  /usr/include/openssl/pkcs7err.h \
+  /usr/include/openssl/ocsp.h \
+  /usr/include/openssl/http.h \
+  /usr/include/openssl/conf.h \
+  /usr/include/openssl/conferr.h \
+  /usr/include/openssl/conftypes.h \
+  /usr/include/openssl/x509v3.h \
+  /usr/include/openssl/x509v3err.h \
+  /usr/include/openssl/ocsperr.h \
+  /usr/include/openssl/pemerr.h \
+  /usr/include/openssl/err.h
 
+
+/usr/include/openssl/x509v3err.h:
+
+/usr/include/openssl/conftypes.h:
+
+/usr/include/openssl/conf.h:
+
+/usr/include/openssl/pkcs7.h:
+
+/usr/include/openssl/x509_vfy.h:
+
+/usr/include/openssl/sha.h:
+
+/usr/include/openssl/dh.h:
+
+/usr/include/openssl/dsa.h:
+
+/usr/include/openssl/ec.h:
+
+/usr/include/openssl/buffererr.h:
+
+/usr/include/openssl/buffer.h:
+
+/usr/include/openssl/x509.h:
+
+/usr/include/openssl/rsaerr.h:
+
+/usr/include/openssl/rsa.h:
+
+/usr/include/openssl/lhash.h:
 
 /usr/include/openssl/objectserr.h:
 
 /usr/include/openssl/asn1err.h:
+
+/usr/include/openssl/dsaerr.h:
 
 /usr/include/openssl/asn1.h:
 
@@ -485,6 +545,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/openssl/params.h:
 
 /usr/include/openssl/bioerr.h:
+
+/usr/include/openssl/dherr.h:
 
 /usr/include/openssl/cryptoerr.h:
 
@@ -557,6 +619,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/c++/11/math.h:
 
 /usr/include/c++/11/bits/quoted_string.h:
+
+/usr/include/openssl/ocsp.h:
 
 /usr/include/c++/11/bits/locale_conv.h:
 
@@ -633,6 +697,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/openssl/bnerr.h:
 
 /usr/include/opencv4/opencv2/core/optim.hpp:
+
+/usr/include/openssl/pkcs7err.h:
 
 /usr/include/c++/11/bits/std_mutex.h:
 
@@ -740,6 +806,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
+/usr/include/openssl/pem.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
@@ -809,6 +877,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /usr/include/sched.h:
+
+/usr/include/openssl/err.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
 
@@ -1218,9 +1288,13 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 
 /usr/include/opencv4/opencv2/core/saturate.hpp:
 
+/usr/include/openssl/x509err.h:
+
 /usr/include/c++/11/bits/stl_vector.h:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+
+/usr/include/openssl/pemerr.h:
 
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
 
@@ -1251,6 +1325,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/linux/limits.h:
 
 /usr/include/c++/11/array:
+
+/usr/include/openssl/ecerr.h:
 
 /usr/include/c++/11/bits/alloc_traits.h:
 
@@ -1286,7 +1362,11 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
+/usr/include/openssl/conferr.h:
+
 /usr/include/c++/11/bits/invoke.h:
+
+/usr/include/openssl/ocsperr.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
@@ -1329,6 +1409,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/c++/11/pstl/execution_defs.h:
 
 /usr/include/c++/11/cstring:
+
+/usr/include/openssl/x509v3.h:
 
 /usr/include/opencv4/opencv2/core/operations.hpp:
 
@@ -1379,6 +1461,8 @@ CMakeFiles/Client.dir/main.cpp.o: /home/jct/Estudiante-Client/main.cpp \
 /usr/include/opencv4/opencv2/core/check.hpp:
 
 /usr/include/opencv4/opencv2/core/traits.hpp:
+
+/usr/include/openssl/http.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h:
 
