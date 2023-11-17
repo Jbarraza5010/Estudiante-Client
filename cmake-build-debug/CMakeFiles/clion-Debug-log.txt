@@ -1,4 +1,4 @@
-/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/jct/Estudiante-Client -B /home/jct/Estudiante-Client/cmake-build-debug
--- Configuring done (1.8s)
--- Generating done (0.8s)
--- Build files have been written to: /home/jct/Estudiante-Client/cmake-build-debug
+/home/tomeito/Downloads/CLion-2023.2.2/clion-2023.2.2/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/tomeito/CLionProjects/Estudiante-Client -B /home/tomeito/CLionProjects/Estudiante-Client/cmake-build-debug
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/tomeito/CLionProjects/Estudiante-Client/cmake-build-debug
