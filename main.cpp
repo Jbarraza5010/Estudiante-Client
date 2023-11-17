@@ -12,7 +12,7 @@
 using namespace std;
 using namespace cv;
 
-// Function to load RSA key from file
+// Carga el key privado RSA
 RSA* loadPrivateKey(const char* privateKeyPath) {
     FILE* file = fopen(privateKeyPath, "r");
     if (!file) {
@@ -24,7 +24,7 @@ RSA* loadPrivateKey(const char* privateKeyPath) {
     return rsa;
 }
 
-// Function to decrypt data using RSA private key
+// Decripta la informacion usando RSA key
 vector<uint8_t> decryptRSA(const uint8_t* data, size_t dataSize, RSA* rsaKey) {
     int rsaSize = RSA_size(rsaKey);
     vector<uint8_t> decryptedData(rsaSize);
@@ -44,22 +44,22 @@ void decryptAES(const vector<uint8_t>& input, vector<uint8_t>& output, const vec
     int len;
     int plaintext_len;
 
-    // Create and initialize the context
+    // Crea e inicializa el contexto
     ctx = EVP_CIPHER_CTX_new();
     EVP_DecryptInit_ex(ctx, EVP_aes_128_ecb(), NULL, key.data(), NULL);
 
-    // Set up the output buffer
+    // Crea el output buffer
     output.resize(input.size());
 
-    // Perform the decryption
+    // Realiza la decriptacion
     EVP_DecryptUpdate(ctx, output.data(), &len, input.data(), input.size());
     plaintext_len = len;
 
-    // Finalize the decryption
+    // Finaliza la decriptacion
     EVP_DecryptFinal_ex(ctx, output.data() + len, &len);
     plaintext_len += len;
 
-    // Clean up
+    // Limpieza
     EVP_CIPHER_CTX_free(ctx);
     output.resize(plaintext_len);
 }
@@ -117,42 +117,41 @@ int main() {
         imshow("Imagen Recibida por el Estudiante", receivedImage);
         waitKey(0);
     } else if (algorithmIdentifier == 2) {
-        // Load private key
+        // Carga el key privado
         RSA* privateKey = loadPrivateKey("/home/tomeito/CLionProjects/Estudiante-Client/private_key.pem");
 
-        // Receive the size of the encrypted AES key
+        // Recive el tamaño del key usando AES debido al tamaño
         uint32_t encryptedAesKeySize;
         recv(clientSocket, &encryptedAesKeySize, sizeof(encryptedAesKeySize), 0);
 
-        // Receive the encrypted AES key
+        // Recive el key AES
         vector<uint8_t> encryptedAesKey(encryptedAesKeySize);
         recv(clientSocket, encryptedAesKey.data(), encryptedAesKeySize, 0);
 
-        // Decrypt the AES key using RSA
+        // Decripta el key AES usando RSA
         vector<uint8_t> aesKey = decryptRSA(encryptedAesKey.data(), encryptedAesKeySize, privateKey);
 
-        // Receive the size of the encrypted image data
+        // Recive el tamaño de la imagen
         uint32_t encryptedImageSize;
         recv(clientSocket, &encryptedImageSize, sizeof(encryptedImageSize), 0);
 
-        // Receive the encrypted image data
+        // Recive la informacion de la imagen
         vector<uint8_t> encryptedImageData(encryptedImageSize);
         recv(clientSocket, encryptedImageData.data(), encryptedImageSize, 0);
 
-        // Decrypt the image data using AES
+        // Decripta la informacion de la imagen usando AES
         vector<uint8_t> decryptedImageData;
         decryptAES(encryptedImageData, decryptedImageData, aesKey);
 
         // Convierte los datos de la imagen recibidos a formato Mat
         Mat receivedImage = imdecode(decryptedImageData, IMREAD_UNCHANGED);
 
-        // Check if decryption was successful
+        // Checkea si la decriptacion funciono
         if (decryptedImageData.empty()) {
             cerr << "Error decrypting image with AES" << endl;
             return -1;
         }
 
-        // Check if decoding was successful
         if (receivedImage.empty()) {
             cerr << "Error decoding image" << endl;
             return -1;
